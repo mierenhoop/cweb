@@ -5,6 +5,9 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <errno.h>
+#include <stdio.h>
+
+#include "common.c"
 
 struct json_value {
     char *value;
@@ -87,6 +90,24 @@ struct json_value parse_rpc_response(char *response) {
     char *headers_end = strstr(response, "\r\n\r\n");
     if (!headers_end) internal_error("Http response does not contain body");
     return parse_json(&headers_end); // Can do with \r\n\r\n included...
+}
+
+#define SEND_SOCKET(sock, string) do { \
+    if (send((sock), (string), strlen(string), 0) == -1) \
+        internal_error("Error while sending to socket"); \
+    } while (0)
+
+void send_http(int sock, const char *parts[]) {
+    int len = 0;
+    for (int i = 0; parts[i]; i++)
+        len += strlen(parts[i]);
+    // TODO: Send some required http headers here
+    SEND_SOCKET(sock, "Content-length: ");
+    char buf[256]; // int will never get this long so let's not check errors
+    snprintf(buf, 256, "%d", len);
+    SEND_SOCKET(sock, buf);
+    SEND_SOCKET(sock, "\r\n\r\n");
+    for (int i = 0; parts[i]; i++) SEND_SOCKET(sock, parts[i]);
 }
 
 int main(int argc, char *argv[])
