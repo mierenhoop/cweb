@@ -8,6 +8,9 @@ SQLITE= -lsqlite3
 
 all: bin/pay
 
+run: all
+	./bin/pay
+
 gen-index.c: index.html
 	lua parse.lua < $< > $@
 
@@ -17,5 +20,5 @@ bin/pay: pay.c gen-index.c
 .PHONY: clean
 
 clean:
-	rm bin/pay gen-index.c
+	rm -f bin/pay gen-index.c
 

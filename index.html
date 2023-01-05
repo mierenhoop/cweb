@@ -7,5 +7,13 @@
 <% if (some_number > 3) { %>
 <p>Number is bigger than 3</p>
 <% } %>
+
+<% if (n_items) { %>
+<ul>
+<% for (int i = 0; i < n_items; i++) { %>
+<li><%d items[i] %></li>
+<% } %>
+</ul>
+<% } %>
 </body>
 </html>

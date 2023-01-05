@@ -11,6 +11,9 @@ int main() {
         const char *value = "fjdaf";
         int some_number = 1;
 
+        int items[3] = {2, 3, 4};
+        int n_items = 0;
+
         execute_index;
     }
 }
