@@ -9,7 +9,7 @@ SQLITE= -lsqlite3
 all: bin/pay
 
 run: all
-	./bin/pay
+	lighttpd -D -f lighttpd.conf
 
 gen-index.c: index.html
 	lua parse.lua < $< > $@
