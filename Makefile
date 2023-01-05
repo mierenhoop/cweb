@@ -6,8 +6,16 @@ SQLITE= -lsqlite3
 # sqlite.o: sqlite.c
 # end
 
-# gen-index.c: index.html
-# 	awk -f parse.awk -- $< > $@
+all: bin/pay
 
-bin/pay: pay.c
+gen-index.c: index.html
+	lua parse.lua < $< > $@
+
+bin/pay: pay.c gen-index.c
 	$(CC) -o $@ $(SQLITE) $<
+
+.PHONY: clean
+
+clean:
+	rm bin/pay gen-index.c
+
