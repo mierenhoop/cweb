@@ -1,12 +1,19 @@
 # Build
 Install the following dependencies:
-For runtime: `lighttpd`
-Optional but required with current Makefile: `sqlite3` + its headers
+* For runtime: `lighttpd`
+* When normal build: `sqlite3` + its headers
 
 Required for compiling:
-`make`
-`gcc` or any other c99 compiler
-`lua5.3` or any version >= 5.1 OR Luajit's minilua
+* `make`
+* `gcc` or any other c99 compiler
+* When normal build: `lua5.3` or any version >= 5.1
+* Only when static AND from git: `wget` and `tar` (likely already installed)
+
+Normal build: `make all`
+
+Static build: `make STATIC=true`
+
+To run: `make run`
 
 IMPORTANT: you will have to change the server.document-root in the config to match this the full path of directory.
 
