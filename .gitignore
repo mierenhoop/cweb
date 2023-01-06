@@ -1,2 +1,4 @@
 gen*
 bin/*
+vendor/*
+!vendor/Makefile
