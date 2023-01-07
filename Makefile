@@ -8,7 +8,7 @@ LUA=lua
 SQLITE=-lsqlite3
 endif
 
-all: bin/pay
+all: bin/main
 
 vendor/sqlite3.o:
 	make -C vendor sqlite3.o
@@ -22,11 +22,11 @@ run: all
 gen-index.c: index.html | $(LUA_DEP)
 	$(LUA) parse.lua < $< > $@
 
-bin/pay: pay.c gen-index.c | $(SQLITE_DEP)
-	$(CC) -o $@ $(SQLITE) $<
+bin/main: main.c gen-index.c | $(SQLITE_DEP)
+	$(CC) -o $@ $< $(SQLITE) 
 
 .PHONY: clean
 
 clean:
-	rm -f bin/pay gen-index.c
+	rm -f bin/main gen-index.c
 	make -C vendor clean

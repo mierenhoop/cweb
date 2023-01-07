@@ -9,6 +9,9 @@ static void internal_error(const char* msg) {
     fputs(strerror(errno), stderr);
     fputc('\n',stderr);
     // Write 
+    fputs("Status: 500 Internal Server Error\r\n", stdout);
+    fputs("Content-type: text/plain\r\n\r\n", stdout);
+    fputs("Error 500", stdout);
     exit(1);
 }
 

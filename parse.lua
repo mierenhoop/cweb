@@ -19,7 +19,7 @@ local function consume(n)
   i = i + (n or 1)
 end
 
-write("#define execute_"..name.." fputs(\"")
+write("#define execute_"..name.." do { fputs(\"")
 while i <= #s do
   if state ~= "html" and peek() == '"' then
     local match = peek()
@@ -32,7 +32,7 @@ while i <= #s do
     if state ~= "html" then error(parse_error) end
     -- strip newline if it precedes
     -- TODO: skip all spaces/tabs before too?
-    write((sub(s, last, i-1):gsub("\n","\\n\" \\\n\"")))
+    write((sub(s, last, i-1):gsub("\"","\\\""):gsub("\n","\\n\" \\\n\"")))
     write("\",stdout);")
     consume(2)
     local formatstring
@@ -61,5 +61,5 @@ while i <= #s do
     consume()
   end
 end
-write((sub(s, last, i-1):gsub("\n","\\n\" \\\n\"")))
-write("\",stdout);\n")
+write((sub(s, last, i-1):gsub("\"","\\\""):gsub("\n","\\n\" \\\n\"")))
+write("\",stdout); } while (0)\n")

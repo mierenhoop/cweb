@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Val: <%s value %></title>
+<title>Todo list</title>
 </head>
 <body>
-<% if (some_number > 3) { %>
-<p>Number is bigger than 3</p>
-<% } %>
-
-<% if (n_items) { %>
+<h1>Todo list</h1>
+<form action="" method="post">
+<input type="text" name="add" />
+<button type="submit">Add</button>
+</form>
+<form action="" method="post">
 <ul>
-<% for (int i = 0; i < n_items; i++) { %>
-<li><%d items[i] %></li>
+<% db_prep("SELECT * FROM Todos"); while (db_step()) { %>
+<li><%s db_col_text(1) %><button type="submit" name="remove" value=<%d sqlite3_column_int(res, 0) %>>Remove</button></li>
 <% } %>
 </ul>
-<% } %>
-
-<p>Query: <strong><%s (query&&strlen(query))?query:"No query provided" %></strong></p>
-
+</form>
 </body>
 </html>
